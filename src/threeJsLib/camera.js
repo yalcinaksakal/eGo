@@ -6,7 +6,7 @@ const myCam = () => {
   const near = 1.0;
   const far = 300.0;
   const camera = new PerspectiveCamera(fov, aspect, near, far);
-  camera.position.set(40, 20, 50);
+  camera.position.set(100, 50, 105);
   return camera;
 };
 

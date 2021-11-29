@@ -1,7 +1,8 @@
-import { Scene, FogExp2 } from "three";
+import { Scene, FogExp2, Clock } from "three";
 import myCam from "./camera";
 import createPlane from "./createPlaneAndBoxes";
-import gtlfLoader from "./gtlfLoader";
+import getGrass from "./grass";
+
 import createLights from "./lights";
 import carLoader from "./moverGLTF";
 import createR from "./renderer";
@@ -10,7 +11,7 @@ import setOrbitControls from "./setOrbitControls";
 const setScene = () => {
   let speed = 0.1;
   const flagColors = ["#FFCC00", "#D00", "#000"];
-  let colorIndex = 0;
+  let colorIndex = 2;
   //renderer
   const renderer = createR();
   //camera
@@ -18,9 +19,12 @@ const setScene = () => {
   //scene
   const scene = new Scene();
   //fog
-  scene.fog = new FogExp2(flagColors[colorIndex], 0.002);
-
-  renderer.setClearColor(scene.fog.color);
+  scene.fog = new FogExp2(flagColors[colorIndex], 0.0025);
+  //clock
+  const clock = new Clock();
+  //grass
+  const { grassInstancedMesh, grassMaterial } = getGrass();
+  scene.add(grassInstancedMesh);
 
   //car
   let tyres;
@@ -34,13 +38,7 @@ const setScene = () => {
   carLoader(onCarLoaded);
   //lights
   scene.add(...Object.values(createLights()));
-  //objects
-  let grass;
-  const onGtlfLoad = model => {
-    scene.add(model);
-    grass = model;
-  };
-  gtlfLoader(onGtlfLoad, "gltfs/grass/scene.gltf");
+
   //add a plane
   const [plane, soil] = createPlane();
   scene.add(plane, soil);
@@ -64,16 +62,17 @@ const setScene = () => {
       tyres.forEach(t => {
         t.rotation.z -= speed;
       });
-    if (grass) {
-      grass.position.x -= speed / 2;
 
-      if (grass.position.x < -100) {
-        grass.position.x = 100;
-        colorIndex++;
-        colorIndex %= 3;
-        scene.fog.color.set(flagColors[colorIndex]);
-        renderer.setClearColor(flagColors[colorIndex]);
-      }
+    grassMaterial.uniforms.time.value = clock.getElapsedTime();
+    grassMaterial.uniformsNeedUpdate = true;
+    grassInstancedMesh.position.x -= speed;
+
+    if (grassInstancedMesh.position.x < -300) {
+      colorIndex++;
+      colorIndex %= 3;
+      scene.fog.color.set(flagColors[colorIndex]);
+      renderer.setClearColor(flagColors[colorIndex]);
+      grassInstancedMesh.position.x = 300;
     }
     renderer.render(scene, camera);
     controls.update();

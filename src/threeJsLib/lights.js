@@ -13,8 +13,8 @@ const createLights = () => {
   light.position.set(0, 100, 0);
   light.target.position.set(0, 0, 0);
 
-  const spotLight = new SpotLight("#fdfbd3");
-  spotLight.position.set(50, 40, 500);
+  const spotLight = new SpotLight("white", 1, 500, Math.PI / 9);
+  spotLight.position.set(50, 50, 50);
 
   spotLight.castShadow = true;
 
@@ -23,11 +23,11 @@ const createLights = () => {
 
   // spotLight.shadow.camera.near = 21;
   // spotLight.shadow.camera.far = 100;
-  // spotLight.shadow.camera.fov = 30;
+  // spotLight.shadow.camera.fov = 10;
   // const lhelper = new SpotLightHelper(spotLight, "red");
   // const pointLightHelper = new PointLightHelper(pl, 50);
   return {
-    ambient: new AmbientLight(0x555555),
+    ambient: new AmbientLight("white"),
     light,
     spotLight,
     // axesHelper: new AxesHelper(50),

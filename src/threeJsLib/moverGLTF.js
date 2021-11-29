@@ -21,9 +21,9 @@ const carLoader = onLoad => {
     ];
     model.traverse(m => {
       if (m.isMesh) {
-        // m.castShadow = true;
+        m.castShadow = true;
         // m.receiveShadow = true;
-        if (m.name === "body") m.material.color = new Color("#7e481c");
+        // if (m.name === "body") m.material.color = new Color("white");
         // if (m.name === "logo") m.material.color = new Color("#0096FF");
 
         if (+m.name < 17) {
@@ -37,8 +37,8 @@ const carLoader = onLoad => {
     tyres.forEach(t => tyreGroups[Math.floor((+t.name - 1) / 4)].add(t));
 
     tyreGroups.forEach((t, i) => t.position.set(...groupPos[i]));
-    model.castShadow = true;
-    model.receiveShadow = true;
+    // model.castShadow = true;
+    model.receiveShadow = false;
     onLoad(model, tyreGroups);
   };
 
