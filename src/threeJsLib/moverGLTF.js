@@ -1,5 +1,5 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Color, Group } from "three";
+import { Group } from "three";
 
 const carLoader = onLoad => {
   const addModel = gltf => {
