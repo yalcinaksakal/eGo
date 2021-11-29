@@ -6,7 +6,7 @@ const setOrbitControls = (cam, el) => {
   // controls.autoRotate = true;
   // controls.autoRotateSpeed = 0.2;
   controls.enableDamping = true;
-  controls.enablePan = false;
+  controls.enablePan = true;
   // //horizantal
   // controls.maxAzimuthAngle = Math.PI / 60;
   // controls.minAzimuthAngle = -Math.PI / 60;
@@ -14,8 +14,8 @@ const setOrbitControls = (cam, el) => {
   controls.maxPolarAngle = (Math.PI * 85) / 180;
   // controls.minPolarAngle = Math.PI / 2;
   // //zoom
-  controls.maxDistance = 300;
-  controls.minDistance = 50;
+  controls.maxDistance = 200;
+  controls.minDistance = 5;
   return controls;
 };
 
